@@ -36,6 +36,7 @@ y2 = calculate_y(x2,w4)
 # ++++++++++++++++++++++++++++++++++++++++++++++++++ Inside the black box ++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
 output = [y1[i] + y2[i] + b3 for i in range(len(input))]
+print(output)
 
 # plot the curve only using input and output array
 
