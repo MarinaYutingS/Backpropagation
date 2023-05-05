@@ -1,5 +1,12 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
+input = [0, 0.5, 1]
+observed = [0, 1, 0]
+b3 = 0
+step_size = 100.000
+learning_rate = 0.1
+input_testing = np.linspace(0,1,1000)
 # ++++++++++++++++++++++++++++++++++++++++++++++++++ START the black box ++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
 # ==== define the activation function ==== #
@@ -23,26 +30,27 @@ def blackbox(input, w1,w2,w3,w4,b1,b2,b3):
     
     return [round(y1[i] + y2[i] + b3,2) for i in range(len(input))]
 
+# +++++++++++++++++++++++++++ START the gradiant descent to calculate the optimized b3 +++++++++++++++++++++++++++ #
+def optimize_b3(input,b3):
+    for i in range(20):
+        
+        predicted = blackbox(input, 3.34,-1.22,-3.53,-2.3,-1.43,0.57,b3)
+
+        d_ssr_b3 = [-2 * (observed[i] - predicted[i]) for i in range(len(input))]
+        step_size = sum(d_ssr_b3) * learning_rate
+        b3 = b3 - step_size
+        b3= round(b3,3)
+    return b3
 # ++++++++++++++++++++++++++++++++++++++++++++++++++ END the black box ++++++++++++++++++++++++++++++++++++++++++++++++++ #
+b3 = optimize_b3(input,b3)
+output_testing = blackbox(input_testing, 3.34,-1.22,-3.53,-2.3,-1.43,0.57,b3)
+
+fig, ax = plt.subplots()
+
+plt.scatter(input,observed)
+
+line, = ax.plot(input_testing, output_testing)
 
 
-input = [0, 0.5, 1]
-observed = [0, 1, 0]
 
-# ++++++++++++++++++++++++++++++++++++++++++++++++++ START the gradiant descent ++++++++++++++++++++++++++++++++++++++++++++++++++ #
-b3 = 0
-step_size = 100.000
-learning_rate = 0.1
-# while np.square(step_size) > np.square(learning_rate * 0.1):
-for i in range(20):
-    
-    predicted = blackbox(input, 3.34,-1.22,-3.53,-2.3,-1.43,0.57,b3)
-
-    d_ssr_b3 = [-2 * (observed[i] - predicted[i]) for i in range(len(input))]
-    # print(sum(d_ssr_b3))
-    step_size = sum(d_ssr_b3) * learning_rate
-    print(step_size)
-    b3 = b3 - step_size
-    b3= round(b3,3)
-    print(b3)
-    print()
+plt.show()
