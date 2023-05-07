@@ -9,3 +9,7 @@ https://www.youtube.com/watch?v=CqOfi41LfDw
 - One hidden layer with two nodes ( a top node and a bottom node)
 - b3 is to be optimized by using the chain rule and gradiant descent
 - It takes 9 steps to get the optimized b3 = 2.61, the step size is -0.002
+
+<br> Backpropagation pt1. Step Three. <br>
+- b3, w3, w4 is to be optimized by using the chain rule and gradiant descent
+- codes to be improved
