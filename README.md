@@ -13,3 +13,4 @@ https://www.youtube.com/watch?v=CqOfi41LfDw
 <br> Backpropagation pt1. Step Three. <br>
 - b3, w3, w4 is to be optimized by using the chain rule and gradiant descent
 - codes to be improved
+- to define the criteria as for when the gradiant descent should stop optimizing paramaters
