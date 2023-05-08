@@ -38,11 +38,14 @@ def optimize_b3(input,b3):
 
         d_ssr_b3 = [-2 * (observed[i] - predicted[i]) for i in range(len(input))]
         step_size = sum(d_ssr_b3) * learning_rate
+        print('step_size=',step_size)
+        print()
         b3 = b3 - step_size
         b3= round(b3,3)
     return b3
 # ++++++++++++++++++++++++++++++++++++++++++++++++++ END the black box ++++++++++++++++++++++++++++++++++++++++++++++++++ #
 b3 = optimize_b3(input,b3)
+print(b3)
 output_testing = blackbox(input_testing, 3.34,-1.22,-3.53,-2.3,-1.43,0.57,b3)
 
 fig, ax = plt.subplots()
