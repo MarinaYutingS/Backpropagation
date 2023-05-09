@@ -1,101 +1,71 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-input = [0, 0.5, 1]
-observed = [0, 1, 0]
-input_testing = np.linspace(0,1,5)
-
-# ==== define the paramaters for the gradiant descent ==== #
-learning_rate = 0.1
-max_iteration = 1000
-threshold = 1e-6
-
-# ==== define the initial values of those to be optimized ==== #
-b3 = 0
-# w3 = round(np.random.randn(),2)
-# w4 = round(np.random.randn(),2)
-w3 = 0.36
-w4 = 0.63
-
-# b3 = 7.326
-# w3 = -2.195
-# w4 = -6.8
-# ++++++++++++++++++++++++++++++++++++++++++++++++++ START the black box ++++++++++++++++++++++++++++++++++++++++++++++++++ #
-
-# ==== define the activation function ==== #
-def softPlus(x):
+# Define SoftPlus activation function
+def softplus(x):
     return np.log(1 + np.exp(x))
 
-# ==== define the function to calculate an array of x-axis value ==== #
-def calculate_x(input,w,b):
-    # print('w=',w)
-    return [w * i + b for i in input]
+# Define derivative of SoftPlus activation function
+def d_softplus(x):
+    return 1 / (1 + np.exp(-x))
 
-# ==== define the function to calculate an array of y-axis value ==== #
-def calculate_y(x,w):
-    return [softPlus(x_axis) * w for x_axis in x]
+# Initialize weights and biases
+w1 = np.random.randn(2, 1)
+b1 = np.random.randn(2, 1)
+w2 = np.random.randn(1, 2)
+b2 = np.random.randn(1, 1)
 
-# ==== define the function with two nodes in one layer ==== #
-def blackbox(input, w1,w2,w3,w4,b1,b2,b3):
-    x1 = calculate_x(input,w1,b1)
-    x2 = calculate_x(input,w2,b2)
-    y1 = calculate_y(x1,w3)
-    y2 = calculate_y(x2,w4)
-    output = [round((y1[i] + y2[i] + b3),2) for i in range(len(input))]
-    # print('pre=',output)
-    return x1,x2,y1,y2,output
+# Define training data
+X_train = np.array([[0], [0.5], [1]])
+Y_train = np.array([[0], [1], [0]])
 
-# +++++++++++++++++++++++++++ START the gradiant descent to calculate the optimized b3, w3, w4 +++++++++++++++++++++++++++ #
+# Define testing data
+X_test = np.array([[0.1], [0.3], [0.7], [0.9]])
+Y_test = np.array([[0], [1], [0], [0]])
 
-# ==== define the function to calculate step size and new value for the gradiant descent ==== #
-def gradiant_descent_value(derivative, learning_rate, value, history):
-    step_size = sum(derivative) * learning_rate
-    history.append(step_size)
-    print(history[-3:])
-    value -= step_size
-    value = round(value,3)
-    print('step_size=',step_size)
-    return value
+# Define hyperparameters
+learning_rate = 0.1
+num_iterations = 10000
 
-# ==== define the function to calculate values need to be optimized ==== #
-def optimize_b3_w3_w4(input,b3,w3,w4):
-    # for i in range(1000):
-    iteration = 0
-    history = []
-    while iteration < max_iteration:
-        #  Calculate the gradient of the loss function at the current point
-        output = blackbox(input, 3.34,-3.53,w3,w4,-1.43,0.57,b3)
-        predicted = output[4]
-        y1 = softPlus(output[0])
-        y2 = softPlus(output[1])
-        # print('y1=',y1)
-        d_ssr_b3 = [-2 * (observed[i] - predicted[i]) for i in range(len(input))]
-        d_ssr_w3 = [-2 *  (observed[i] - predicted[i]) * y1[i] for i in range(len(input))]
-        d_ssr_w4 = [-2 *  (observed[i] - predicted[i]) * y2[i] for i in range(len(input))]
-        # print('d_ssr=',sum(d_ssr_w3),sum(d_ssr_w4),sum(d_ssr_b3))
-        
-        b3 = gradiant_descent_value(d_ssr_b3,learning_rate,b3,history)
-        w3 = gradiant_descent_value(d_ssr_w3,learning_rate,w3,history)
-        w4 = gradiant_descent_value(d_ssr_w4,learning_rate,w4,history)
-        print()
-        # print('new',w3,w4,b3)
-        iteration += 1
-    return b3,w3,w4
-# ++++++++++++++++++++++++++++++++++++++++++++++++++ END the black box ++++++++++++++++++++++++++++++++++++++++++++++++++ #
+# Train the neural network
+costs = []
+for i in range(num_iterations):
+    # Forward propagation
+    Z1 = np.dot(w1, X_train.T) + b1
+    A1 = softplus(Z1)
+    Z2 = np.dot(w2, A1) + b2
+    A2 = Z2
+    
+    # Compute cost
+    cost = np.mean((Y_train.T - A2)**2)
+    costs.append(cost)
+    
+    # Backward propagation
+    dZ2 = A2 - Y_train.T
+    dW2 = np.dot(dZ2, A1.T)
+    dB2 = np.sum(dZ2, axis=1, keepdims=True)
+    dZ1 = np.dot(w2.T, dZ2) * d_softplus(Z1)
+    dW1 = np.dot(dZ1, X_train)
+    dB1 = np.sum(dZ1, axis=1, keepdims=True)
+    
+    # Update weights and biases
+    w2 = w2 - learning_rate * dW2
+    b2 = b2 - learning_rate * dB2
+    w1 = w1 - learning_rate * dW1
+    b1 = b1 - learning_rate * dB1
 
-result = optimize_b3_w3_w4(input,b3,w3,w4)
-print(result)
-b3 = result[0]
-w3 = result[1]
-w4 = result[2]
+# Test the neural network
+Z1_test = np.dot(w1, X_test.T) + b1
+A1_test = softplus(Z1_test)
+Z2_test = np.dot(w2, A1_test) + b2
+A2_test = Z2_test
 
-
-output_testing = blackbox(input_testing, 3.34,-3.53,w3,w4,-1.43,0.57,b3)[4]
-
-fig, ax = plt.subplots()
-
-plt.scatter(input,observed)
-
-line, = ax.plot(input_testing, output_testing)
-
+# Plot the results
+plt.plot(X_train, Y_train, 'ro', label='Training Data')
+plt.plot(X_test, Y_test, 'bo', label='Testing Data')
+plt.plot(X_test, A2_test.T, 'g', label='Predicted Output')
+plt.legend()
+plt.xlabel('Input')
+plt.ylabel('Output')
+plt.title('Neural Network with 1 Hidden Layer (SoftPlus Activation Function)')
 plt.show()
