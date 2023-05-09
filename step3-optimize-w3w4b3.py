@@ -18,10 +18,11 @@ w4_iteration = 0
 
 # ==== define the initial values of those to be optimized ==== #
 b3 = 0
-# w3 = round(np.random.randn(),2)
-# w4 = round(np.random.randn(),2)
 w3 = 0.36
 w4 = 0.63
+
+# w3 = round(np.random.randn(),2)
+# w4 = round(np.random.randn(),2)
 
 # b3 = 7.326
 # w3 = -2.195
@@ -62,7 +63,8 @@ def gradiant_descent_value(derivative, learning_rate, value):
 
 # ==== check if the change in step size is below the threshold ==== #
 def criteria(iteration,step_size,max_iteration):
-    if iteration > 0 and np.abs(step_size[-1] - step_size[-2]) < threshold and np.abs(step_size[-1]) < 0.02:
+    # print('criteria step_size[-1]=', step_size[-1])
+    if iteration > 0 and iteration < max_iteration and np.abs(step_size[-1] - step_size[-2]) < threshold:
         if np.abs(step_size[-1]) < 0.002:
             print("Converged after", iteration, "iterations")
             iteration = max_iteration + 10
@@ -81,25 +83,33 @@ def optimize_b3(predicted,b3, iteration):
     
     d_ssr_b3 = [-2 * (observed[i] - predicted[i]) for i in range(len(input))]
         
+    # if iteration < max_iteration:
+    #     b3_gradiant = gradiant_descent_value(d_ssr_b3,learning_rate,b3)
+    #     b3 = b3_gradiant[0]
+    #     step_size_b3.append(b3_gradiant[1]) 
     b3_gradiant = gradiant_descent_value(d_ssr_b3,learning_rate,b3)
     b3 = b3_gradiant[0]
-    step_size_b3.append(b3_gradiant[1])     
+    step_size_b3.append(b3_gradiant[1])      
      
     iteration = criteria(iteration,step_size_b3,max_iteration)
         
-    # iteration += 1
+    
     return b3, iteration
 
 def optimize_w3(predicted,y1,w3,iteration):
     d_ssr_w3 = [-2 *  (observed[i] - predicted[i]) * y1[i] for i in range(len(input))]
     
+    # if iteration < max_iteration:
+    #     w3_gradiant = gradiant_descent_value(d_ssr_w3,learning_rate,w3)
+    #     w3 = w3_gradiant[0]
+    #     step_size_w3.append(w3_gradiant[1])
     w3_gradiant = gradiant_descent_value(d_ssr_w3,learning_rate,w3)
     w3 = w3_gradiant[0]
     step_size_w3.append(w3_gradiant[1])
     
     iteration = criteria(iteration,step_size_w3,max_iteration)
     
-    # iteration += 1
+   
     return w3, iteration
 
 def optimize_w4(predicted,y2,w4,iteration):
@@ -107,18 +117,18 @@ def optimize_w4(predicted,y2,w4,iteration):
     
     d_ssr_w4 = [-2 *  (observed[i] - predicted[i]) * y2[i] for i in range(len(input))]
     
-    
-    w4_gradiant = gradiant_descent_value(d_ssr_w4,learning_rate,w4)
-    w4 = w4_gradiant[0]
-    step_size_w4.append(w4_gradiant[1])       
+    if iteration < max_iteration:
+        w4_gradiant = gradiant_descent_value(d_ssr_w4,learning_rate,w4)
+        w4 = w4_gradiant[0]
+        step_size_w4.append(w4_gradiant[1])       
     
     iteration = criteria(iteration,step_size_w4,max_iteration)
     
-    # iteration += 1
+    
     return w4, iteration
 
 # ==== Execution: Run the training data in the black box ==== #
-while b3_iteration < max_iteration and w3_iteration < max_iteration and w4_iteration < max_iteration:
+while b3_iteration < max_iteration or w3_iteration < max_iteration or w4_iteration < max_iteration:
     output = calc_predicted(input,w3,w4,b3)
     predicted = output[0]
     y1 = output[1]
@@ -137,6 +147,7 @@ while b3_iteration < max_iteration and w3_iteration < max_iteration and w4_itera
     w4_iteration = w4_output[1]
     
     print('b3=',b3,'w3=',w3,'w4=',w4)
+    print('iteration_b3,w3,w4=',b3_iteration,w3_iteration,w4_iteration)
     print()
     
     b3_iteration += 1
