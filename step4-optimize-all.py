@@ -7,17 +7,17 @@ def softPlus(x):
 
 # ==== initialize weights and biases ==== #
 b3 = 0
-w3 = 0.13
-w4 = 0.63
-w1 = 2.74
-w2 = -1.13
+# w3 = 0.13
+# w4 = 0.63
+# w1 = 2.74
+# w2 = -1.13
 b1 = 0
 b2 = 0
-# w1 = round(np.random.randn(),2)
-# w2 = round(np.random.randn(),2)
-# w3 = round(np.random.randn(),2)
-# w4 = round(np.random.randn(),2)
-# print('initial: w3=',w3)
+w1 = round(np.random.randn(),2)
+w2 = round(np.random.randn(),2)
+w3 = round(np.random.randn(),2)
+w4 = round(np.random.randn(),2)
+print('initial: w1=',w1,'w2=',w2,'w3=', w3)
 
 # ==== define training data ==== #
 input = [0, 0.5, 1]
@@ -27,7 +27,7 @@ observed = [0, 1, 0]
 input_testing = np.linspace(0,1,5)
 
 # ==== define the paramaters for the gradiant descent ==== #
-max_iteration = 1000
+max_iteration = 2000
 learning_rate = 0.1
 difference_threshold = 1e-6
 absolute_threshold = 0.002
@@ -69,6 +69,11 @@ def blackbox(input, w1,w2,w3,w4,b1,b2,b3):
 
 # +++++++++++++++ Define functions for the Backword propagation +++++++++++++++ #
 
+# ==== define the loss function ==== #
+def loss(expected,predicted):
+    d_array = [np.exp2(expected[i] - predicted[i]) for i in range(len(input))]
+    return sum(d_array)
+
 # ==== define the function to calculate step size and new value for the gradiant descent ==== #
 def gradiant_descent_value(derivative, learning_rate, value):
     step_size = derivative * learning_rate
@@ -87,6 +92,7 @@ def criteria(iteration,step_size, val_string):
     else:
         if val_string != 'b3':
             iteration += 1
+
     return iteration
 
 # ==== calculate deritive (gradient) ==== #
@@ -125,8 +131,8 @@ def calc_iteration(back,forward,step_size_forward,forward_string):
     return forward
 
 # ==== Execution: Run the training data in the black box ==== #
-# while w4_iteration < max_iteration:
-for i in range(max_iteration):
+while w1_iteration < max_iteration or w2_iteration < max_iteration:
+# for i in range(max_iteration):
 
     # ==== forward pass ====
     output = blackbox(input, w1,w2,w3,w4,b1,b2,b3)
@@ -167,9 +173,12 @@ for i in range(max_iteration):
     step_size_b2.append(b2_gradiant[1])
     step_size_w1.append(w1_gradiant[1])
     step_size_w2.append(w2_gradiant[1])
-
-    # calculate the iteration
     
+
+
+    # Check if the step size (loss function) is close to 0
+    # The changes in step size are close to 0 as well.
+        
     b3_iteration = criteria(b3_iteration,step_size_b3, 'b3')
     if b3_iteration != max_iteration + 10:
         b3_iteration += 1
@@ -210,7 +219,7 @@ print('b2=',b2,'iteration = ',b2_iteration)
 
 
 
-output_testing = blackbox(input_testing, w1,w2,w3,w4,b1,b2,b3)[4]
+output_testing = blackbox(input_testing, w1,w2,w3,w4,b1,b2,b3)[0]
 
 fig, ax = plt.subplots()
 
