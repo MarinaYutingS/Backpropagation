@@ -5,29 +5,10 @@ import matplotlib.pyplot as plt
 # ==== define the activation function ==== # (Variables)
 def ReLu(x):
     return np.maximum(0,x)
-# def d_Relu(x):
-#     return np.where(x > 0, 1, 0)
+
 # ==== define the function to calculate an array of y-axis value ==== # (Redefined based on activation function)
 def calculate_y(x):
     return [round(ReLu(x_axis),2) for x_axis in x]
-
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-# ==== define training data ==== # (Variables)
-# input = [0, 0.2, 0.4, 0.5, 0.6, 0.8, 1]
-
-# # ==== inialize values ==== # (Outputs)
-# w1,w2,w3,w4,b1,b2,b3 = (1.7, 12.6, -40.8, 2.7,-0.85, 0, 0)
-
-# # ==== forward propagation ==== #
-# x1 = mymodule.calculate_x(input,w1,b1)
-# x2 = mymodule.calculate_x(input,w2,b2)
-# y1 = calculate_y(x1)
-# y2 = calculate_y(x2)
-# y = [round((y1[i] * w3 + y2[i] * w4 + b3),2) for i in range(len(input))]
-# output = [ReLu(y_output) for y_output in y]
-
-# print(output)
 
 #==== Define the neural network architecture ==== # 
 class NeuralNetwork:
@@ -97,7 +78,10 @@ print('w1=',nn.w1,'w2=',nn.w2,'w3=',nn.w3,'w4=',nn.w4,'b1=',nn.b1,'b2=',nn.b2,'b
 x = np.linspace(0, 1, 100)
 predictions = nn.forward(x)
 
-# ================ Plot ===================
+xx= [0.5,1]
+test = nn.forward(xx)
+print(test)
+# ===================================
 fig, ax = plt.subplots()
 plt.scatter(X,y,color='red')
 line, = ax.plot(x, predictions, color='green')
