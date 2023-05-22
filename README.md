@@ -26,3 +26,13 @@ https://www.youtube.com/watch?v=CqOfi41LfDw
     - output array [0, 1, 2]
     - max_iteration number 
   - Output animation plot
+
+
+<br> pt3 <br>
+- ReLu activetion function
+
+
+<br> pt4 <br>
+- Multiple inputs and outputs
+- 3D plots instead of 2D
+- platforms instead of lines
