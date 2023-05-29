@@ -36,3 +36,7 @@ https://www.youtube.com/watch?v=CqOfi41LfDw
 - Multiple inputs and outputs
 - 3D plots instead of 2D
 - platforms instead of lines
+
+<br> pt5 <br>
+-  An illustration of the SoftMax and ArgMax functions.
+- Optimized the neural network by putting weights, biases, and training data into arrays. 
