@@ -15,18 +15,19 @@ https://www.youtube.com/watch?v=CqOfi41LfDw
 - to define the criteria as for when the gradiant descent should stop optimizing paramaters
 
 <br> Backpropagation pt2. Step 4. <br>
-- file name: mymoudule.py
 - optimize all paramaters
 - backpropagation paramater output sequence matters
 - with fancy animation to illustrate the learning process of the plot
 
-<br> Go from here <br>
-- Export the optimzation mymodule as an application which contains: 
-  - User friendly input page of the training data (line 10-14 in mymodule )
-    - input array [0, 1, 2]
-    - output array [0, 1, 2]
-    - max_iteration number 
-  - Output animation plot
+<br> mymoudule.py <br>
+- Used for animation.py
+- Go from here 
+  - Export the optimzation mymodule as an application which contains: 
+    - User friendly input page of the training data (line 10-14 in mymodule )
+      - input array [0, 1, 2]
+      - output array [0, 1, 2]
+      - max_iteration number 
+    - Output animation plot
 
 
 <br> pt3 <br>
