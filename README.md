@@ -15,6 +15,7 @@ https://www.youtube.com/watch?v=CqOfi41LfDw
 - to define the criteria as for when the gradiant descent should stop optimizing paramaters
 
 <br> Backpropagation pt2. Step 4. <br>
+- file name: mymoudule.py
 - optimize all paramaters
 - backpropagation paramater output sequence matters
 - with fancy animation to illustrate the learning process of the plot
