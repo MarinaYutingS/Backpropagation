@@ -42,3 +42,10 @@ https://www.youtube.com/watch?v=CqOfi41LfDw
 <br> pt5 <br>
 -  An illustration of the SoftMax and ArgMax functions.
 - Optimized the neural network by putting weights, biases, and training data into arrays. 
+
+<br> pt6 <br>
+- Backpropagation with multiple inputs
+- Cross Entropy as the loss function
+- Calcute the derivative of Cross Entropy with respect to weights and biases
+- delta2: the derivatives of the outer layer
+- delta1: the derivatives of the inner layer (before the activation funciton)
