@@ -49,3 +49,10 @@ https://www.youtube.com/watch?v=CqOfi41LfDw
 - Calcute the derivative of Cross Entropy with respect to weights and biases
 - delta2: the derivatives of the outer layer
 - delta1: the derivatives of the inner layer (before the activation funciton)
+
+<br> pt7 <br>
+- A convolutional Neural Network (CNN) is the convolution of the input image and a regular neural network. It is like the sample preparation before the samples go through the HPLC or other analysis. 
+
+- Convolution is applying a filter (mask) to turn the input image into a desired array suitable for a neural network. 
+
+- The filter is to be optimized as well. 
